@@ -1,0 +1,76 @@
+@echo off
+title Secure Folder Locker
+color 0A
+
+if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
+if NOT EXIST Private goto MDPrivate
+
+:CONFIRM
+cls
+echo ==========================================
+echo           FOLDER SECURITY SYSTEM
+echo ==========================================
+echo.
+echo Are you sure you want to LOCK this folder?
+echo.
+echo Press Y to Lock
+echo Press N to Cancel
+echo.
+set /p cho=Enter your choice: 
+
+if %cho%==Y goto LOCK
+if %cho%==y goto LOCK
+if %cho%==N goto END
+if %cho%==n goto END
+
+echo Invalid choice!
+pause
+goto CONFIRM
+
+:LOCK
+cls
+echo ==========================================
+echo          LOCKING YOUR FOLDER...
+echo ==========================================
+
+ren Private "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+attrib +h +s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+
+echo.
+echo Your folder has been successfully LOCKED.
+echo ==========================================
+pause
+goto End
+
+:UNLOCK
+cls
+echo ==========================================
+echo           UNLOCK SECURE FOLDER
+echo ==========================================
+echo.
+set /p pass=Enter Password: 
+
+if NOT %pass%==YOUR PASS goto FAIL
+
+attrib -h -s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" Private
+
+echo.
+echo Folder Unlocked Successfully!
+echo ==========================================
+pause
+goto End
+
+:FAIL
+echo.
+echo WRONG PASSWORD!
+echo Access Denied.
+pause
+goto End
+
+:MDPrivate
+md Private
+echo Private Folder Created Successfully
+goto End
+
+:End
